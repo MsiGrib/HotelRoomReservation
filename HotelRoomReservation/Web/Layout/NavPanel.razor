@@ -1,9 +1,10 @@
 ﻿@using MudBlazor
 
-<MudDrawer Immediate="true" Open="true" Anchor="Anchor.Left" Variant="DrawerVariant.Mini">
+<MudDrawer Immediate="true" Open="true" Anchor="Anchor.Left" Variant="DrawerVariant.Persistent" Width="200px">
     <MudNavMenu>
-        <MudNavLink Href="/LogIn" Icon="@Icons.Material.Filled.Login">Авторизация</MudNavLink>
-        <MudNavLink Href="/about" Icon="@Icons.Material.Filled.Info">О нас</MudNavLink>
-        <MudNavLink Href="/contact" Icon="@Icons.Material.Filled.ContactMail">Контакты</MudNavLink>
+        <MudStack Direction="Column" Spacing="2" Style="height: 100%; justify-content: space-between; display: flex;">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary">Главная</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary">Вход</MudButton>
+        </MudStack>
     </MudNavMenu>
 </MudDrawer>

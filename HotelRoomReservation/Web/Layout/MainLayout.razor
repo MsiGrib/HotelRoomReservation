@@ -1,15 +1,12 @@
 ﻿@inherits LayoutComponentBase
 @using MudBlazor
 
-<MudThemeProvider />
+<MudThemeProvider Theme="@_mudTheme" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar>
-        My Application
-    </MudAppBar>
 
     <NavPanel />
 

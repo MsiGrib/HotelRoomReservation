@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
+using MudBlazor.Utilities;
 
 namespace Web.Layout
 {
@@ -6,6 +8,14 @@ namespace Web.Layout
     {
         [Inject] 
         public required NavigationManager Navigation { get; set; }
+        public MudTheme _mudTheme = new MudTheme()
+        {
+            PaletteLight = new PaletteLight()
+            {
+                Primary = Colors.Blue.Default,
+                Secondary = Colors.Red.Default
+            }
+        };
 
         protected override void OnInitialized()
         {
