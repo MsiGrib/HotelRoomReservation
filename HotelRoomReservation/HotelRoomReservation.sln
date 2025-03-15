@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{36D591C7-65C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{073948F9-DADE-444C-9A30-5C925C822685}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dal", "Dal", "{1C4904A4-88CB-4807-9294-911C7A815808}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{EBF684C9-E930-4BA3-879C-3C8F900B7A8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,12 +21,17 @@ Global
 		{073948F9-DADE-444C-9A30-5C925C822685}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{073948F9-DADE-444C-9A30-5C925C822685}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{073948F9-DADE-444C-9A30-5C925C822685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBF684C9-E930-4BA3-879C-3C8F900B7A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBF684C9-E930-4BA3-879C-3C8F900B7A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBF684C9-E930-4BA3-879C-3C8F900B7A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBF684C9-E930-4BA3-879C-3C8F900B7A8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{073948F9-DADE-444C-9A30-5C925C822685} = {36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}
+		{EBF684C9-E930-4BA3-879C-3C8F900B7A8A} = {1C4904A4-88CB-4807-9294-911C7A815808}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C183CCF4-8FF5-449F-8FCE-5442A6C52126}

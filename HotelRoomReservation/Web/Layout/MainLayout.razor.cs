@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using MudBlazor.Utilities;
 
 namespace Web.Layout
 {

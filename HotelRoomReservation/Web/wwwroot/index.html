@@ -13,6 +13,7 @@
 
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 
 </head>
 
@@ -30,7 +31,25 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+
     <script src="_framework/blazor.webassembly.js"></script>
+    <script type="text/javascript">
+        function initializeMap(latitude, longitude) {
+            ymaps.ready(function () {
+                var map = new ymaps.Map('map', {
+                    center: [latitude, longitude],
+                    zoom: 13
+                });
+
+                var placemark = new ymaps.Placemark([latitude, longitude], {
+                    balloonContent: 'Наш отель'
+                });
+
+                map.geoObjects.add(placemark);
+            });
+        }
+    </script>
+
 </body>
 
 </html>

@@ -15,6 +15,12 @@ public class Program
 
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
+        builder.Services.AddSingleton<BasicConfiguration>(sp =>
+        {
+            var configuration = sp.GetRequiredService<IConfiguration>();
+            return new BasicConfiguration(configuration);
+        });
+
         await builder.Build().RunAsync();
     }
 }
