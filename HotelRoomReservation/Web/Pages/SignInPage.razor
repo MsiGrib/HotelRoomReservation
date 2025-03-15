@@ -1,0 +1,40 @@
+﻿@page "/SignIn"
+@using MudBlazor
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="login-container">
+    <MudPaper Class="login-paper" Elevation="6">
+        <MudText Typo="Typo.h4" Class="text-center mb-4">Регистрация</MudText>
+
+        <MudTextField @bind-Value="TextValue" Label="Логин" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" FullWidth="true" />
+        <MudTextField @bind-Value="TextValue" Label="Пароль" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Lock" FullWidth="true" InputType="InputType.Password" />
+        <MudTextField @bind-Value="TextValue" Label="Повторите пароль" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Lock" FullWidth="true" InputType="InputType.Password" />
+        <MudTextField @bind-Value="TextValue" Label="Email" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Email" FullWidth="true" InputType="InputType.Email" />
+        <MudTextField @bind-Value="TextValue" Label="Номер телефона" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Phone" FullWidth="true" InputType="InputType.Telephone" />
+        <MudTextField @bind-Value="TextValue" Label="Имя" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" FullWidth="true" InputType="InputType.Text" />
+        <MudTextField @bind-Value="TextValue" Label="Фамилия" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" FullWidth="true" InputType="InputType.Text" />
+        <MudTextField @bind-Value="BirthDate" Label="Дата рождения" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.CalendarToday" FullWidth="true" InputType="InputType.Date" />
+
+        <MudButton OnClick="OnSignIn" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Class="mt-3">Зарегестрироваться</MudButton>
+        <MudDivider Class="my-4" />
+        <MudButton OnClick="OnBack" Variant="Variant.Text" Color="Color.Secondary" FullWidth="true">Назад</MudButton>
+    </MudPaper>
+</MudContainer>
+
+<style>
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-paper {
+        padding: 2rem;
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+</style>

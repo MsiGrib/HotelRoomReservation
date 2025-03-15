@@ -12,7 +12,7 @@ namespace Web.Layout
             PaletteLight = new PaletteLight()
             {
                 Primary = Colors.Blue.Default,
-                Secondary = Colors.Red.Default
+                Secondary = Colors.BlueGray.Default
             }
         };
 
