@@ -1,10 +1,59 @@
 ﻿@using MudBlazor
+@inherits LayoutComponentBase
 
-<MudDrawer Immediate="true" Open="true" Anchor="Anchor.Left" Variant="DrawerVariant.Persistent" Width="200px">
-    <MudNavMenu>
-        <MudStack Direction="Column" Spacing="2" Style="height: 100%; justify-content: space-between; display: flex;">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary">Главная</MudButton>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary">Вход</MudButton>
-        </MudStack>
-    </MudNavMenu>
-</MudDrawer>
+<MudItem Class="@(IsOpen ? "nav__panel open" : "nav__panel")">
+    <MudDrawerContainer Class="mud-height-full">
+        <MudDrawer @bind-Open="IsOpen"
+                   Fixed="true"
+                   Elevation="1"
+                   Variant="DrawerVariant.Mini"
+                   OpenMiniOnHover="true"
+                   MiniVariantWidth="50px"
+                   Width="200px">
+
+            <MudItem Class="nav__item">
+                <MudButton OnClick="NavigationToHome" Class="mt-2" FullWidth="true" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Home" Color="Color.Primary">
+                    @if (IsOpen)
+                    {
+                        <MudText>Главная</MudText>
+                    }
+                </MudButton>
+                <MudButton OnClick="NavigationToMap" Class="mt-2" FullWidth="true" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Map" Color="Color.Primary">
+                    @if (IsOpen)
+                    {
+                        <MudText>Карта</MudText>
+                    }
+                </MudButton>
+                <MudButton OnClick="NavigationToLogIn" Class="mb-2" FullWidth="true" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AccountBox" Color="Color.Primary" Style="margin-top: auto;">
+                    @if (IsOpen)
+                    {
+                        <MudText>Вход</MudText>
+                    }
+                </MudButton>
+            </MudItem>
+        </MudDrawer>
+    </MudDrawerContainer>
+</MudItem>
+
+<style>
+    .nav__panel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 50px;
+        transition: width 0.3s ease;
+        z-index: 1000;
+    }
+
+    .nav__panel:hover,
+    .nav__panel.open {
+        width: 200px;
+    }
+    .nav__item {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-between;
+    }
+</style>

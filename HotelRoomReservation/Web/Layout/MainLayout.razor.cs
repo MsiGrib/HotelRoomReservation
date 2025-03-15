@@ -17,9 +17,6 @@ namespace Web.Layout
             }
         };
 
-        protected override void OnInitialized()
-        {
-            Navigation.NavigateTo("/LogIn");
-        }
+        private bool _navOpen = false;
     }
 }
