@@ -32,7 +32,6 @@
         <a class="dismiss">🗙</a>
     </div>
 
-    <script src="_framework/blazor.webassembly.js"></script>
     <script type="text/javascript">
         function initializeMap(latitude, longitude) {
             ymaps.ready(function () {
@@ -42,13 +41,14 @@
                 });
 
                 var placemark = new ymaps.Placemark([latitude, longitude], {
-                    balloonContent: 'Наш отель'
+                    balloonContent: 'Мы тут'
                 });
 
                 map.geoObjects.add(placemark);
             });
         }
     </script>
+    <script src="_framework/blazor.webassembly.js"></script>
 
 </body>
 
