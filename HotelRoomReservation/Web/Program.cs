@@ -21,6 +21,18 @@ public class Program
             return new BasicConfiguration(configuration);
         });
 
+        RegisterMicroServices(builder);
+
         await builder.Build().RunAsync();
+    }
+
+    private static void RegisterMicroServices(WebAssemblyHostBuilder builder)
+    {
+        builder.Services.AddHttpClient("IdentityApi", client =>
+        {
+            client.BaseAddress = new Uri(builder?.Services?.BuildServiceProvider().GetRequiredService<BasicConfiguration>().IdentityApiUrl);
+        });
+
+        builder.Services.AddScoped<UniversalApiManager>();
     }
 }

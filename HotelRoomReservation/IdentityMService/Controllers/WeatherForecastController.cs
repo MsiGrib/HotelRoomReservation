@@ -13,9 +13,8 @@ public class WeatherForecastController : ControllerBase
 
     private readonly ILogger<WeatherForecastController> _logger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, BasicConfiguration basicConfiguration)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger)
     {
-        var qwe = basicConfiguration;
         _logger = logger;
     }
 

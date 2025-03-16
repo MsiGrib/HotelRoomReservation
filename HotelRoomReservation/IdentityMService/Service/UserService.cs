@@ -2,7 +2,7 @@
 
 namespace IdentityMService.Service
 {
-    internal class UserService : IUserService
+    public class UserService : IUserService
     {
         private readonly IRepository<UserDTO, Guid> _userRepository;
 
@@ -10,5 +10,7 @@ namespace IdentityMService.Service
         {
             _userRepository = userRepository;
         }
+
+        public UserDTO? GetUserBy
     }
 }

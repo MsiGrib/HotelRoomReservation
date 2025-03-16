@@ -6,6 +6,7 @@ namespace Web
     {
         public string LongitudeHotel { get; private set; }
         public string LatitudeHotel { get; private set; }
+        public string IdentityApiUrl { get; private set; }
 
         public BasicConfiguration(IConfiguration configuration) : base(configuration) { }
     }

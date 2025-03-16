@@ -1,6 +1,6 @@
 ﻿namespace IdentityMService.Service
 {
-    internal interface IUserService
+    public interface IUserService
     {
 
     }
