@@ -28,7 +28,7 @@ namespace IdentityMService
 
             string? connectionString = builder?.Services?.BuildServiceProvider().GetRequiredService<BasicConfiguration>().ConnectionString;
             _ = builder?.Services.AddDbContext<IdentityDBContext>(options => options.UseNpgsql(connectionString));
-            builder?.Services.AddScoped<IRepository<UserDTO, Guid>, UserRepository>();
+            builder?.Services.AddScoped<IUserRepository, UserRepository>();
             builder?.Services.AddScoped<IUserService, UserService>();
 
             var app = builder!.Build();

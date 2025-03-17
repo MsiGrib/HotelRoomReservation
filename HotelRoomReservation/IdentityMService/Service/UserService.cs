@@ -1,16 +1,26 @@
 ﻿using DataModel.DataBase;
+using IdentityMService.EntityGateWay;
+using System.Threading.Tasks;
 
 namespace IdentityMService.Service
 {
     public class UserService : IUserService
     {
-        private readonly IRepository<UserDTO, Guid> _userRepository;
+        private readonly IUserRepository _userRepository;
 
-        public UserService(IRepository<UserDTO, Guid> userRepository)
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public UserDTO? GetUserBy
+        public async Task<UserDTO?> GetUserByEmailAsync(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new Exception("Пустой email!");
+            }
+
+            return await _userRepository.GetByEmailAsync(email);
+        }
     }
 }
