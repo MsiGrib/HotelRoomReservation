@@ -3,9 +3,23 @@
     top: 0;
     left: 0;
     height: 100vh;
+    width: 50px;
+    transition: width 0.3s ease;
+    z-index: 1000;
 }
+
+    ::deep .nav__panel:hover,
+    ::deep .nav__panel.open {
+        width: 200px;
+    }
 
 ::deep .nav__item {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
+::deep .button__low {
+    margin-top: auto;
 }
