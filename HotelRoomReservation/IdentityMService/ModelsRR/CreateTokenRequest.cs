@@ -1,6 +1,6 @@
 ﻿namespace IdentityMService.ModelsRR
 {
-    public class TokenRequest
+    public class CreateTokenRequest
     {
         public string UserEmail { get; set; }
     }

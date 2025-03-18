@@ -8,7 +8,7 @@ namespace DataModel.DataBase
 {
     public class UserDTO : IEntity<Guid>
     {
-        public Guid Id { get; set; }
+        public required Guid Id { get; set; }
         public required string Login { get; set; }
         public required string Password { get; set; }
         public required string Email { get; set; }
