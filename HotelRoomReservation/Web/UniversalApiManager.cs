@@ -26,11 +26,19 @@ namespace Web
         // POST-запрос
         public async Task<TResponse> PostAsync<TRequest, TResponse>(string clientName, string requestUri, TRequest data)
         {
-            var client = _httpClientFactory.CreateClient(clientName);
-            var response = await client.PostAsJsonAsync(requestUri, data);
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                var client = _httpClientFactory.CreateClient(clientName);
+                var response = await client.PostAsJsonAsync(requestUri, data);
 
-            return await response.Content.ReadFromJsonAsync<TResponse>();
+                return await response.Content.ReadFromJsonAsync<TResponse>();
+            }
+            catch (Exception ex)
+            {
+                var qwe = ex;
+                throw;
+            }
+
         }
 
         // PUT-запрос
@@ -38,7 +46,6 @@ namespace Web
         {
             var client = _httpClientFactory.CreateClient(clientName);
             var response = await client.PutAsJsonAsync(requestUri, data);
-            response.EnsureSuccessStatusCode();
 
             return await response.Content.ReadFromJsonAsync<TResponse>();
         }
@@ -48,7 +55,6 @@ namespace Web
         {
             var client = _httpClientFactory.CreateClient(clientName);
             var response = await client.DeleteAsync(requestUri);
-            response.EnsureSuccessStatusCode();
         }
 
         // PATCH-запрос
@@ -62,7 +68,6 @@ namespace Web
                 Content = content
             };
             var response = await client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
 
             return await response.Content.ReadFromJsonAsync<TResponse>();
         }

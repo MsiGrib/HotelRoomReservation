@@ -68,7 +68,7 @@ namespace IdentityMService.Service
                 NumberPhone = numberPhone,
                 LastName = lastName,
                 FirstName = firstName,
-                Birthday = birthday,
+                Birthday = DateTime.SpecifyKind(birthday, DateTimeKind.Utc),
             };
 
             bool status = await _userRepository.AddAsync(user);

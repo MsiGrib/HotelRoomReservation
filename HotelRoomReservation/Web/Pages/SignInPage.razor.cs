@@ -1,6 +1,7 @@
 ﻿using DataModel.ModelsResponse;
 using IdentityMService.ModelsRR;
 using Microsoft.AspNetCore.Components;
+using System.Text.Json;
 using System.Xml.Linq;
 
 namespace Web.Pages
@@ -45,30 +46,9 @@ namespace Web.Pages
                 FirstName = _firstName,
                 Birthday = _birthday
             };
-            string url = $"{BasicConfiguration.IdentityApiUrl}api/Auth/Registration​";
-            try
-            {
-                var result = await UniversalApiManager.PostAsync<RegistrationRequest, BaseResponse>(BasicConfiguration.IdentityApiName, url, request);
-            }
-            catch (Exception ex)
-            {
-                var qwe = ex;
-                throw;
-            }
 
+            string url = $"{BasicConfiguration.IdentityApiUrl}api/Auth/Registration";
+            var result = await UniversalApiManager.PostAsync<RegistrationRequest, BaseResponse>(BasicConfiguration.IdentityApiName, url, request);
         }
-
-        //private async Task LoadData()
-        //{
-        //    // Выполняем GET запрос к первому API
-        //    apiOneData = await ApiManager.GetAsync<MyData>("ApiOne", "api/data");
-        //}
-
-        //private async Task CreateData()
-        //{
-        //    // Выполняем POST запрос ко второму API
-        //    var requestData = new PostRequest { RequestProperty = "Test" };
-        //    postResponse = await ApiManager.PostAsync<PostRequest, PostResponse>("ApiTwo", "api/create", requestData);
-        //}
     }
 }

@@ -58,7 +58,7 @@ namespace IdentityMService.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return new ObjectResult(StatusCodes.Status500InternalServerError);
             }
         }
 
@@ -69,29 +69,30 @@ namespace IdentityMService.Controllers
             {
                 if (!AuthCValidator.IsValidRegistrationRequest(request))
                 {
-                    return BadRequest();
+                    return BadRequest(new BaseResponse
+                    {
+                        StatusCode = StatusCodes.Status400BadRequest,
+                        Message = "Данные пустые или некорректны!"
+                    });
                 }
 
                 DateTime.TryParse(request.Birthday, out var birthday);
 
                 bool status = await _userService.RegistrationUserAsync(request.Login, request.Password, request.NumberPhone, request.LastName, request.FirstName, request.Email, birthday);
 
-                if (!status)
+                return Ok(new BaseResponse
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError);
-                }
-
-                var response = new BaseResponse
-                {
-                    StatusCode = 200,
-                    Message = string.Empty
-                };
-
-                return Ok(response);
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Регистрация прошла успешно!"
+                });
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return new ObjectResult(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    Message = "Ошибка на стороне сервера!"
+                });
             }
         }
     }
