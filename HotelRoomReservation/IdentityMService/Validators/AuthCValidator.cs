@@ -12,7 +12,8 @@ namespace IdentityMService.Validators
         public static bool IsValidRegistrationRequest(RegistrationRequest request)
         {
             return !string.IsNullOrEmpty(request.Login) && !string.IsNullOrEmpty(request.Password) && !string.IsNullOrEmpty(request.Email)
-                && !string.IsNullOrEmpty(request.NumberPhone) && !string.IsNullOrEmpty(request.LastName) && !string.IsNullOrEmpty(request.FirstName);
+                && !string.IsNullOrEmpty(request.NumberPhone) && !string.IsNullOrEmpty(request.LastName) && !string.IsNullOrEmpty(request.FirstName)
+                && DateTime.TryParse(request.Birthday, out var _);
         }
     }
 }

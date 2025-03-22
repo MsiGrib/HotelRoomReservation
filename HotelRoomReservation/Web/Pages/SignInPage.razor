@@ -5,14 +5,14 @@
     <MudPaper Class="login-paper" Elevation="6">
         <MudText Typo="Typo.h4" Class="text-center mb-4">Регистрация</MudText>
 
-        <MudTextField @bind-Value="TextValue" Label="Логин" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" FullWidth="true" />
-        <MudTextField @bind-Value="TextValue" Label="Пароль" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Lock" FullWidth="true" InputType="InputType.Password" />
-        <MudTextField @bind-Value="TextValue" Label="Повторите пароль" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Lock" FullWidth="true" InputType="InputType.Password" />
-        <MudTextField @bind-Value="TextValue" Label="Email" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Email" FullWidth="true" InputType="InputType.Email" />
-        <MudTextField @bind-Value="TextValue" Label="Номер телефона" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Phone" FullWidth="true" InputType="InputType.Telephone" />
-        <MudTextField @bind-Value="TextValue" Label="Имя" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" FullWidth="true" InputType="InputType.Text" />
-        <MudTextField @bind-Value="TextValue" Label="Фамилия" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" FullWidth="true" InputType="InputType.Text" />
-        <MudTextField @bind-Value="BirthDate" Label="Дата рождения" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.CalendarToday" FullWidth="true" InputType="InputType.Date" />
+        <MudTextField @bind-Value="_login" Label="Логин" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" FullWidth="true" />
+        <MudTextField @bind-Value="_password" Label="Пароль" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Lock" FullWidth="true" InputType="InputType.Password" />
+        <MudTextField @bind-Value="_repeatPassword" Label="Повторите пароль" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Lock" FullWidth="true" InputType="InputType.Password" />
+        <MudTextField @bind-Value="_email" Label="Email" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Email" FullWidth="true" InputType="InputType.Email" />
+        <MudTextField @bind-Value="_numberPhone" Label="Номер телефона" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Phone" FullWidth="true" InputType="InputType.Telephone" />
+        <MudTextField @bind-Value="_firstName" Label="Имя" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" FullWidth="true" InputType="InputType.Text" />
+        <MudTextField @bind-Value="_lastName" Label="Фамилия" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" FullWidth="true" InputType="InputType.Text" />
+        <MudTextField @bind-Value="_birthday" Label="Дата рождения" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.CalendarToday" FullWidth="true" InputType="InputType.Date" />
 
         <MudButton OnClick="OnSignIn" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Class="mt-3">Зарегестрироваться</MudButton>
         <MudDivider Class="my-4" />

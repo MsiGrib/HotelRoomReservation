@@ -41,7 +41,7 @@ namespace IdentityMService.Service
         }
 
         public async Task<bool> RegistrationUserAsync(string login, string password, string numberPhone, string lastName,
-            string firstName, string email)
+            string firstName, string email, DateTime birthday)
         {
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password)
                 || string.IsNullOrEmpty(numberPhone) || string.IsNullOrEmpty(lastName)
@@ -68,6 +68,7 @@ namespace IdentityMService.Service
                 NumberPhone = numberPhone,
                 LastName = lastName,
                 FirstName = firstName,
+                Birthday = birthday,
             };
 
             bool status = await _userRepository.AddAsync(user);

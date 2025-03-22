@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 
 namespace Web;
@@ -28,9 +29,11 @@ public class Program
 
     private static void RegisterMicroServices(WebAssemblyHostBuilder builder)
     {
-        builder.Services.AddHttpClient("IdentityApi", client =>
+        var config = new BasicConfiguration(builder.Configuration);
+
+        builder!.Services.AddHttpClient(config!.IdentityApiName, client =>
         {
-            client.BaseAddress = new Uri(builder?.Services?.BuildServiceProvider().GetRequiredService<BasicConfiguration>().IdentityApiUrl);
+            client.BaseAddress = new Uri(config.IdentityApiUrl);
         });
 
         builder.Services.AddScoped<UniversalApiManager>();

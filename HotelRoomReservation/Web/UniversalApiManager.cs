@@ -19,6 +19,7 @@ namespace Web
         public async Task<T> GetAsync<T>(string clientName, string requestUri)
         {
             var client = _httpClientFactory.CreateClient(clientName);
+
             return await client.GetFromJsonAsync<T>(requestUri);
         }
 
@@ -28,6 +29,7 @@ namespace Web
             var client = _httpClientFactory.CreateClient(clientName);
             var response = await client.PostAsJsonAsync(requestUri, data);
             response.EnsureSuccessStatusCode();
+
             return await response.Content.ReadFromJsonAsync<TResponse>();
         }
 
@@ -37,6 +39,7 @@ namespace Web
             var client = _httpClientFactory.CreateClient(clientName);
             var response = await client.PutAsJsonAsync(requestUri, data);
             response.EnsureSuccessStatusCode();
+
             return await response.Content.ReadFromJsonAsync<TResponse>();
         }
 
@@ -52,7 +55,6 @@ namespace Web
         public async Task<TResponse> PatchAsync<TRequest, TResponse>(string clientName, string requestUri, TRequest data)
         {
             var client = _httpClientFactory.CreateClient(clientName);
-            // Сериализация данных в JSON
             var json = JsonSerializer.Serialize(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var request = new HttpRequestMessage(new HttpMethod("PATCH"), requestUri)
@@ -61,6 +63,7 @@ namespace Web
             };
             var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
+
             return await response.Content.ReadFromJsonAsync<TResponse>();
         }
     }

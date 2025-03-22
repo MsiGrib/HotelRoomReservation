@@ -1,4 +1,5 @@
-﻿using IdentityMService.ModelsRR;
+﻿using DataModel.ModelsResponse;
+using IdentityMService.ModelsRR;
 using IdentityMService.Service;
 using IdentityMService.Utilitys;
 using IdentityMService.Validators;
@@ -23,7 +24,7 @@ namespace IdentityMService.Controllers
             _basicConfiguration = basicConfiguration;
         }
 
-        [HttpPost(Name = "Authorization")]
+        [HttpPost("Authorization")]
         public async Task<IActionResult> AuthorizationUser([FromBody] AuthorizationRequest request)
         {
             try
@@ -42,10 +43,15 @@ namespace IdentityMService.Controllers
 
                 string token = TokenUtility.CreateJWTToken(_basicConfiguration.SecretJWT, _basicConfiguration.IssuerJWT, _basicConfiguration.AudienceJWT, user.Id.ToString(), DateTime.Now.AddHours(3));
 
-                var response = new AuthorizationResponse
+                var response = new ApiResponse<AuthorizationResponse>
                 {
-                    ExpirationTimeToken = DateTime.Now.AddHours(3),
-                    Token = token,
+                    StatusCode = 200,
+                    Message = string.Empty,
+                    Data = new AuthorizationResponse
+                    {
+                        ExpirationTimeToken = DateTime.Now.AddHours(3),
+                        Token = token,
+                    }
                 };
 
                 return Ok(response);
@@ -56,7 +62,7 @@ namespace IdentityMService.Controllers
             }
         }
 
-        [HttpPost(Name = "Registration")]
+        [HttpPost("Registration")]
         public async Task<IActionResult> RegistrationUser([FromBody] RegistrationRequest request)
         {
             try
@@ -66,14 +72,22 @@ namespace IdentityMService.Controllers
                     return BadRequest();
                 }
 
-                bool status = await _userService.RegistrationUserAsync(request.Login, request.Password, request.NumberPhone, request.LastName, request.FirstName, request.Email);
+                DateTime.TryParse(request.Birthday, out var birthday);
+
+                bool status = await _userService.RegistrationUserAsync(request.Login, request.Password, request.NumberPhone, request.LastName, request.FirstName, request.Email, birthday);
 
                 if (!status)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError);
                 }
 
-                return Ok();
+                var response = new BaseResponse
+                {
+                    StatusCode = 200,
+                    Message = string.Empty
+                };
+
+                return Ok(response);
             }
             catch (Exception)
             {

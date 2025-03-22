@@ -12,39 +12,51 @@ namespace IdentityMService
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            builder.Services.AddSingleton<BasicConfiguration>(sp =>
+            try
             {
-                var configuration = sp.GetRequiredService<IConfiguration>();
-                return new BasicConfiguration(configuration);
-            });
+                var builder = WebApplication.CreateBuilder(args);
 
-            string? connectionString = builder?.Services?.BuildServiceProvider().GetRequiredService<BasicConfiguration>().ConnectionString;
-            _ = builder?.Services.AddDbContext<IdentityDBContext>(options => options.UseNpgsql(connectionString));
+                // Add services to the container.
 
-            ServicesBinding(builder!.Services);
+                builder.Services.AddControllers();
+                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+                builder.Services.AddEndpointsApiExplorer();
+                builder.Services.AddSwaggerGen(options =>
+                {
+                    options.CustomSchemaIds(type => type.ToString());
+                });
 
-            var app = builder!.Build();
+                builder.Services.AddSingleton<BasicConfiguration>(sp =>
+                {
+                    var configuration = sp.GetRequiredService<IConfiguration>();
+                    return new BasicConfiguration(configuration);
+                });
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+                string? connectionString = builder?.Services?.BuildServiceProvider().GetRequiredService<BasicConfiguration>().ConnectionString;
+                _ = builder?.Services.AddDbContext<IdentityDBContext>(options => options.UseNpgsql(connectionString));
+
+                ServicesBinding(builder!.Services);
+
+                var app = builder!.Build();
+
+                // Configure the HTTP request pipeline.
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
+                }
+
+                app.UseHttpsRedirection();
+                app.UseAuthorization();
+                app.MapControllers();
+                app.Run();
+            }
+            catch (Exception ex)
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                var qwe = ex;
+                throw;
             }
 
-            app.UseHttpsRedirection();
-            app.UseAuthorization();
-            app.MapControllers();
-            app.Run();
         }
 
         private static void ServicesBinding(IServiceCollection serviceCollection)
