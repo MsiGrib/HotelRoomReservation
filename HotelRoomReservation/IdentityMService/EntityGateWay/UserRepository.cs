@@ -19,34 +19,53 @@ namespace IdentityMService.EntityGateWay
 
         public async Task<UserDTO?> GetByIdAsync(Guid id)
         {
-            return await _context.Users.AsNoTracking().Where(u => u.Id == id).FirstOrDefaultAsync();
+            return await _context.Users
+                .AsNoTracking()
+                .Where(u => u.Id == id)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<UserDTO?> GetByEmailAsync(string email)
         {
-            return await _context.Users.AsNoTracking().Where(u => u.Email == email).FirstOrDefaultAsync();
+            return await _context.Users
+                .AsNoTracking()
+                .Where(u => u.Email == email)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task AddAsync(UserDTO entity)
+        public async Task<UserDTO?> GetByKredsAsync(string login)
+        {
+            return await _context.Users
+                .AsNoTracking()
+                .Where(u => u.Login == login)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> AddAsync(UserDTO entity)
         {
             await _context.Users.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            int result = await _context.SaveChangesAsync();
+            return result > 0;
         }
 
-        public async Task UpdateAsync(UserDTO entity)
+        public async Task<bool> UpdateAsync(UserDTO entity)
         {
             _context.Update(entity);
-            await _context.SaveChangesAsync();
+            int result = await _context.SaveChangesAsync();
+            return result > 0;
         }
 
-        public async Task DeleteByIdAsync(Guid id)
+        public async Task<bool> DeleteByIdAsync(Guid id)
         {
             var user = await GetByIdAsync(id);
             if (user != null)
             {
                 _context.Users.Remove(user);
-                await _context.SaveChangesAsync();
+                int result = await _context.SaveChangesAsync();
+                return result > 0;
             }
+
+            return false;
         }
     }
 }

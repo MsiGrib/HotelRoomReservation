@@ -1,6 +1,6 @@
 ﻿namespace IdentityMService.ModelsRR
 {
-    public class CreateUserRequest
+    public class RegistrationRequest
     {
         public string Login { get; set; }
         public string Password { get; set; }

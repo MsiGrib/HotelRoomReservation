@@ -1,7 +1,8 @@
 ﻿namespace IdentityMService.ModelsRR
 {
-    public class RefreshTokenRequest
+    public class AuthorizationResponse
     {
+        public DateTime ExpirationTimeToken { get; set; }
         public string Token { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using DataModel.DataBase;
 using IdentityMService.EntityGateWay;
+using IdentityMService.Utilitys;
+using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
 namespace IdentityMService.Service
@@ -38,7 +40,7 @@ namespace IdentityMService.Service
             return await _userRepository.GetByEmailAsync(email);
         }
 
-        public async Task AddUserAsync(string login, string password, string numberPhone, string lastName,
+        public async Task<bool> RegistrationUserAsync(string login, string password, string numberPhone, string lastName,
             string firstName, string email)
         {
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password)
@@ -48,18 +50,51 @@ namespace IdentityMService.Service
                 throw new Exception("Пустые данные!");
             }
 
+            var users = await _userRepository.GetAllAsync();
+
+            bool isExists = users.Any(x => x.Login == login && x.Email == email);
+
+            if (isExists)
+            {
+                throw new Exception("Такой пользователь уже есть!");
+            }
+
             var user = new UserDTO
             {
                 Id = Guid.NewGuid(),
                 Login = login,
-                Password = password,
+                Password = HashUtility.HashPassword(password),
                 Email = email,
                 NumberPhone = numberPhone,
                 LastName = lastName,
                 FirstName = firstName,
             };
 
-            await _userRepository.AddAsync(user);
+            bool status = await _userRepository.AddAsync(user);
+
+            return status;
+        }
+
+        public async Task<UserDTO?> AuthorizationUserAsync(string login, string password)
+        {
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+            {
+                throw new Exception("Пустые данные!");
+            }
+
+            var user = await _userRepository.GetByKredsAsync(login);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            if (!HashUtility.VerifyPassword(password, user.Password))
+            {
+                return null;
+            }
+
+            return user;
         }
     }
 }

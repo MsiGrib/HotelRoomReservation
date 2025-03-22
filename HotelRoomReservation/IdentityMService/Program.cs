@@ -1,6 +1,7 @@
 using DataModel.DataBase;
 using IdentityMService.EntityGateWay;
 using IdentityMService.Service;
+using IdentityMService.Utilitys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.Configuration;
@@ -28,8 +29,8 @@ namespace IdentityMService
 
             string? connectionString = builder?.Services?.BuildServiceProvider().GetRequiredService<BasicConfiguration>().ConnectionString;
             _ = builder?.Services.AddDbContext<IdentityDBContext>(options => options.UseNpgsql(connectionString));
-            builder?.Services.AddScoped<IUserRepository, UserRepository>();
-            builder?.Services.AddScoped<IUserService, UserService>();
+
+            ServicesBinding(builder!.Services);
 
             var app = builder!.Build();
 
@@ -44,6 +45,12 @@ namespace IdentityMService
             app.UseAuthorization();
             app.MapControllers();
             app.Run();
+        }
+
+        private static void ServicesBinding(IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddScoped<IUserRepository, UserRepository>();
+            serviceCollection.AddScoped<IUserService, UserService>();
         }
     }
 }
