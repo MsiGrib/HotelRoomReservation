@@ -13,16 +13,11 @@ namespace Web.Pages
 {
     public partial class SignInPage
     {
-        [Inject]
-        public required NavigationManager Navigation { get; set; }
-        [Inject]
-        public required IDialogService DialogService { get; set; }
-        [Inject]
-        public required ISnackbar Snackbar { get; set; }
-        [Inject]
-        public required UniversalApiManager UniversalApiManager { get; set; }
-        [Inject]
-        public required BasicConfiguration BasicConfiguration { get; set; }
+        [Inject] public required NavigationManager Navigation { get; set; }
+        [Inject] public required IDialogService DialogService { get; set; }
+        [Inject] public required ISnackbar Snackbar { get; set; }
+        [Inject] public required UniversalApiManager UniversalApiManager { get; set; }
+        [Inject] public required BasicConfiguration BasicConfiguration { get; set; }
 
         private string _login = string.Empty;
         private string _password = string.Empty;

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
+using System;
 
 namespace Web;
 
@@ -42,6 +43,10 @@ public class Program
         });
 
         builder.Services.AddScoped<UniversalApiManager>();
-        builder.Services.AddSingleton<UserStorage>();
+        builder.Services.AddScoped<UserStorage>(provider =>
+        {
+            var localStorageService = provider.GetRequiredService<ILocalStorageService>();
+            return new UserStorage(localStorageService);
+        });
     }
 }

@@ -9,18 +9,12 @@ namespace Web.Pages
 {
     public partial class LogInPage
     {
-        [Inject]
-        public required NavigationManager Navigation { get; set; }
-        [Inject]
-        public required IDialogService DialogService { get; set; }
-        [Inject]
-        public required ISnackbar Snackbar { get; set; }
-        [Inject]
-        public required UniversalApiManager UniversalApiManager { get; set; }
-        [Inject]
-        public required BasicConfiguration BasicConfiguration { get; set; }
-        [Inject]
-        public required UserStorage UserStorage { get; set; }
+        [Inject] public required NavigationManager Navigation { get; set; }
+        [Inject] public required IDialogService DialogService { get; set; }
+        [Inject] public required ISnackbar Snackbar { get; set; }
+        [Inject] public required UniversalApiManager UniversalApiManager { get; set; }
+        [Inject] public required BasicConfiguration BasicConfiguration { get; set; }
+        [Inject] public required UserStorage UserStorage { get; set; }
 
         private string _login = string.Empty;
         private string _password = string.Empty;
@@ -36,15 +30,17 @@ namespace Web.Pages
             string url = $"{BasicConfiguration.IdentityApiUrl}api/Auth/Authorization";
             var response = await UniversalApiManager.PostAsync<AuthorizationRequest, ApiResponse<AuthorizationResponse>>(BasicConfiguration.IdentityApiName, url, request);
 
-            if (response == null || response.Data == null || string.IsNullOrEmpty(response.Data.Token))
+            if (response == null)
             {
                 Snackbar.ShowNotification("Уведомление", "Произошла ошибка на стороне сервера!");
             }
             else if (response.StatusCode == (int)HttpStatusCode.OK)
             {
                 Snackbar.ShowNotification("Уведомление", response.Message);
+
                 await UserStorage.SetToken(response.Data.Token);
                 await UserStorage.SetExpirationToken(response.Data.ExpirationTimeToken.ToString());
+
                 // Переход в Лк
             }
             else

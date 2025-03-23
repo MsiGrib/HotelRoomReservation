@@ -12,69 +12,63 @@ namespace IdentityMService
     {
         public static void Main(string[] args)
         {
-            try
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+
+            builder.Services.AddControllers();
+
+            builder.Services.AddCors(options =>
             {
-                var builder = WebApplication.CreateBuilder(args);
-
-                // Add services to the container.
-
-                builder.Services.AddControllers();
-
-                builder.Services.AddCors(options =>
+                options.AddPolicy("AllowAll", policy =>
                 {
-                    options.AddPolicy("AllowAll", policy =>
-                    {
-                        policy.AllowAnyOrigin()
-                              .AllowAnyMethod()
-                              .AllowAnyHeader();
-                    });
+                    policy.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
                 });
+            });
 
-                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-                builder.Services.AddEndpointsApiExplorer();
-                builder.Services.AddSwaggerGen(options =>
-                {
-                    options.CustomSchemaIds(type => type.ToString());
-                });
-
-                builder.Services.AddSingleton<BasicConfiguration>(sp =>
-                {
-                    var configuration = sp.GetRequiredService<IConfiguration>();
-                    return new BasicConfiguration(configuration);
-                });
-
-                string? connectionString = builder?.Services?.BuildServiceProvider().GetRequiredService<BasicConfiguration>().ConnectionString;
-                _ = builder?.Services.AddDbContext<IdentityDBContext>(options => options.UseNpgsql(connectionString));
-
-                ServicesBinding(builder!.Services);
-
-                var app = builder!.Build();
-
-                // Configure the HTTP request pipeline.
-                if (app.Environment.IsDevelopment())
-                {
-                    app.UseSwagger();
-                    app.UseSwaggerUI();
-                }
-
-                app.UseHttpsRedirection();
-                app.UseCors("AllowAll");
-                app.UseAuthorization();
-                app.MapControllers();
-                app.Run();
-            }
-            catch (Exception ex)
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(options =>
             {
-                var qwe = ex;
-                throw;
+                options.CustomSchemaIds(type => type.ToString());
+            });
+
+            builder.Services.AddSingleton<BasicConfiguration>(sp =>
+            {
+                var configuration = sp.GetRequiredService<IConfiguration>();
+                return new BasicConfiguration(configuration);
+            });
+
+            string? connectionString = builder?.Services?.BuildServiceProvider().GetRequiredService<BasicConfiguration>().ConnectionString;
+            _ = builder?.Services.AddDbContext<IdentityDBContext>(options => options.UseNpgsql(connectionString));
+
+            ServicesBinding(builder!.Services);
+
+            var app = builder!.Build();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
+            app.UseHttpsRedirection();
+            app.UseCors("AllowAll");
+            app.UseAuthorization();
+            app.MapControllers();
+            app.Run();
         }
 
         private static void ServicesBinding(IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IUserRepository, UserRepository>();
             serviceCollection.AddScoped<IUserService, UserService>();
+
+            serviceCollection.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            serviceCollection.AddScoped<IUserProfileService, UserProfileService>();
         }
     }
 }

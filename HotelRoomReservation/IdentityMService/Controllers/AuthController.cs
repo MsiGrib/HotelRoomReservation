@@ -15,12 +15,14 @@ namespace IdentityMService.Controllers
     {
         private readonly ILogger<AuthController> _logger;
         private readonly IUserService _userService;
+        private readonly IUserProfileService _userProfileService;
         private readonly BasicConfiguration _basicConfiguration;
 
-        public AuthController(ILogger<AuthController> logger, IUserService userService, BasicConfiguration basicConfiguration)
+        public AuthController(ILogger<AuthController> logger, IUserService userService, IUserProfileService userProfileService, BasicConfiguration basicConfiguration)
         {
             _logger = logger;
             _userService = userService;
+            _userProfileService = userProfileService;
             _basicConfiguration = basicConfiguration;
         }
 
@@ -96,9 +98,10 @@ namespace IdentityMService.Controllers
                 }
 
                 DateTime.TryParse(request.Birthday, out var birthday);
-                bool status = await _userService.RegistrationUserAsync(request.Login, request.Password, request.NumberPhone, request.LastName, request.FirstName, request.Email, birthday);
+                var registrResult = await _userService.RegistrationUserAsync(request.Login, request.Password, request.NumberPhone, request.LastName, request.FirstName, request.Email, birthday);
+                bool statusProfile = await _userProfileService.PrimaryProfileConsciousness(registrResult.First);
 
-                if (!status)
+                if (!registrResult.Second)
                 {
                     new ObjectResult(new BaseResponse
                     {

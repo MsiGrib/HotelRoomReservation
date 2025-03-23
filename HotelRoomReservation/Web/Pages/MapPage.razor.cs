@@ -5,10 +5,8 @@ namespace Web.Pages
 {
     public partial class MapPage
     {
-        [Inject]
-        public required IJSRuntime JSRuntime { get; set; }
-        [Inject]
-        public required BasicConfiguration BasicConfiguration { get; set; }
+        [Inject] public required IJSRuntime JSRuntime { get; set; }
+        [Inject] public required BasicConfiguration BasicConfiguration { get; set; }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {

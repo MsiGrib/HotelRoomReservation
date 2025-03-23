@@ -1,4 +1,5 @@
 ﻿using DataModel.DataBase;
+using DataModel.DataStructures;
 
 namespace IdentityMService.Service
 {
@@ -6,7 +7,7 @@ namespace IdentityMService.Service
     {
         public Task<UserDTO?> GetUserByIdAsync(string idGuid);
         public Task<UserDTO?> GetUserByEmailAsync(string email);
-        public Task<bool> RegistrationUserAsync(string login, string password, string numberPhone, string lastName, string firstName, string email, DateTime birthday);
+        public Task<Pair<UserDTO, bool>> RegistrationUserAsync(string login, string password, string numberPhone, string lastName, string firstName, string email, DateTime birthday);
         public Task<bool> IsExistsRegistrUserAsync(string login, string email);
         public Task<UserDTO?> AuthorizationUserAsync(string login, string password);
     }

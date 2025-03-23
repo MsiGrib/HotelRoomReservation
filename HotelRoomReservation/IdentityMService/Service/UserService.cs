@@ -1,4 +1,5 @@
 ﻿using DataModel.DataBase;
+using DataModel.DataStructures;
 using IdentityMService.EntityGateWay;
 using IdentityMService.Utilitys;
 using Microsoft.AspNetCore.Identity;
@@ -51,7 +52,7 @@ namespace IdentityMService.Service
             return users.Any(x => x.Login == login && x.Email == email);
         }
 
-        public async Task<bool> RegistrationUserAsync(string login, string password, string numberPhone, string lastName,
+        public async Task<Pair<UserDTO, bool>> RegistrationUserAsync(string login, string password, string numberPhone, string lastName,
             string firstName, string email, DateTime birthday)
         {
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password)
@@ -75,7 +76,7 @@ namespace IdentityMService.Service
 
             bool status = await _userRepository.AddAsync(user);
 
-            return status;
+            return new Pair<UserDTO?, bool>(user, status);
         }
 
         public async Task<UserDTO?> AuthorizationUserAsync(string login, string password)

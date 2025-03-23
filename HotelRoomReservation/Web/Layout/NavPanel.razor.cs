@@ -27,5 +27,10 @@ namespace Web.Layout
         {
             Navigation.NavigateTo("/LogIn");
         }
+
+        private void NavigationToProfile()
+        {
+            Navigation.NavigateTo("/Profile");
+        }
     }
 }

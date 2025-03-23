@@ -14,13 +14,16 @@ namespace IdentityMService.EntityGateWay
 
         public async Task<List<UserDTO>> GetAllAsync()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users
+                .Include(x => x.UserProfile)
+                .ToListAsync();
         }
 
         public async Task<UserDTO?> GetByIdAsync(Guid id)
         {
             return await _context.Users
                 .AsNoTracking()
+                .Include(x => x.UserProfile)
                 .Where(u => u.Id == id)
                 .FirstOrDefaultAsync();
         }
@@ -29,6 +32,7 @@ namespace IdentityMService.EntityGateWay
         {
             return await _context.Users
                 .AsNoTracking()
+                .Include(x => x.UserProfile)
                 .Where(u => u.Email == email)
                 .FirstOrDefaultAsync();
         }
@@ -37,6 +41,7 @@ namespace IdentityMService.EntityGateWay
         {
             return await _context.Users
                 .AsNoTracking()
+                .Include(x => x.UserProfile)
                 .Where(u => u.Login == login)
                 .FirstOrDefaultAsync();
         }
@@ -45,6 +50,7 @@ namespace IdentityMService.EntityGateWay
         {
             await _context.Users.AddAsync(entity);
             int result = await _context.SaveChangesAsync();
+
             return result > 0;
         }
 
@@ -52,6 +58,7 @@ namespace IdentityMService.EntityGateWay
         {
             _context.Update(entity);
             int result = await _context.SaveChangesAsync();
+
             return result > 0;
         }
 
@@ -62,6 +69,7 @@ namespace IdentityMService.EntityGateWay
             {
                 _context.Users.Remove(user);
                 int result = await _context.SaveChangesAsync();
+
                 return result > 0;
             }
 

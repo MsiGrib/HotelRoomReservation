@@ -60,6 +60,53 @@ namespace IdentityMService.Migrations
 
                     b.ToTable("Users");
                 });
+
+            modelBuilder.Entity("DataModel.DataBase.UserProfileDTO", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImagePatch")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UsersProfile");
+                });
+
+            modelBuilder.Entity("DataModel.DataBase.UserProfileDTO", b =>
+                {
+                    b.HasOne("DataModel.DataBase.UserDTO", "User")
+                        .WithOne("UserProfile")
+                        .HasForeignKey("DataModel.DataBase.UserProfileDTO", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DataModel.DataBase.UserDTO", b =>
+                {
+                    b.Navigation("UserProfile")
+                        .IsRequired();
+                });
 #pragma warning restore 612, 618
         }
     }

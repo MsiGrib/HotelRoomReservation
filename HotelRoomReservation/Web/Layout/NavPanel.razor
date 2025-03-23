@@ -30,6 +30,12 @@
                         <MudText>Вход</MudText>
                     }
                 </MudButton>
+                <MudButton OnClick="NavigationToProfile" Class="mb-2 button__low" FullWidth="true" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.AccountBox" Color="Color.Primary">
+                    @if (IsOpen)
+                    {
+                        <MudText>Профиль</MudText>
+                    }
+                </MudButton>
             </MudItem>
         </MudDrawer>
     </MudDrawerContainer>

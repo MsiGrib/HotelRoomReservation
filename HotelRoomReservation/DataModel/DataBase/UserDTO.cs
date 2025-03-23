@@ -16,5 +16,7 @@ namespace DataModel.DataBase
         public required string LastName { get; set; }
         public required string FirstName { get; set; }
         public required DateTime Birthday { get; set; }
+
+        public virtual UserProfileDTO UserProfile { get; set; }
     }
 }
