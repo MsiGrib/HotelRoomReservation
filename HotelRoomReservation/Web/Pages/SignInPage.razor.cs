@@ -1,8 +1,13 @@
 ﻿using DataModel.ModelsResponse;
 using IdentityMService.ModelsRR;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
+using MudBlazor;
+using System.Net;
 using System.Text.Json;
 using System.Xml.Linq;
+using Web.Helpers;
+using Web.UIComponents;
 
 namespace Web.Pages
 {
@@ -10,6 +15,10 @@ namespace Web.Pages
     {
         [Inject]
         public required NavigationManager Navigation { get; set; }
+        [Inject]
+        public required IDialogService DialogService { get; set; }
+        [Inject]
+        public required ISnackbar Snackbar { get; set; }
         [Inject]
         public required UniversalApiManager UniversalApiManager { get; set; }
         [Inject]
@@ -33,7 +42,8 @@ namespace Web.Pages
         {
             if (_password != _repeatPassword)
             {
-                // пароли не равны
+                await DialogService.ShowDialogAsync("Ошибка", "Пароли не совпадают!");
+                return;
             }
 
             var request = new RegistrationRequest
@@ -48,7 +58,21 @@ namespace Web.Pages
             };
 
             string url = $"{BasicConfiguration.IdentityApiUrl}api/Auth/Registration";
-            var result = await UniversalApiManager.PostAsync<RegistrationRequest, BaseResponse>(BasicConfiguration.IdentityApiName, url, request);
+            var response = await UniversalApiManager.PostAsync<RegistrationRequest, BaseResponse>(BasicConfiguration.IdentityApiName, url, request);
+
+            if (response == null)
+            {
+                Snackbar.ShowNotification("Уведомление", "Произошла ошибка на стороне сервера!");
+            }
+            else if (response.StatusCode == (int)HttpStatusCode.OK)
+            {
+                Snackbar.ShowNotification("Уведомление", response.Message);
+                Navigation.NavigateTo("/LogIn");
+            }
+            else
+            {
+                Snackbar.ShowNotification("Уведомление", response.Message);
+            }
         }
     }
 }

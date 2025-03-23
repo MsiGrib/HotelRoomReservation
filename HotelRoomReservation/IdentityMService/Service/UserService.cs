@@ -40,6 +40,17 @@ namespace IdentityMService.Service
             return await _userRepository.GetByEmailAsync(email);
         }
 
+        public async Task<bool> IsExistsRegistrUserAsync(string login, string email)
+        {
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(email))
+            {
+                throw new Exception("Пустые данные!");
+            }
+            var users = await _userRepository.GetAllAsync();
+
+            return users.Any(x => x.Login == login && x.Email == email);
+        }
+
         public async Task<bool> RegistrationUserAsync(string login, string password, string numberPhone, string lastName,
             string firstName, string email, DateTime birthday)
         {
@@ -48,15 +59,6 @@ namespace IdentityMService.Service
                 || string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(email))
             {
                 throw new Exception("Пустые данные!");
-            }
-
-            var users = await _userRepository.GetAllAsync();
-
-            bool isExists = users.Any(x => x.Login == login && x.Email == email);
-
-            if (isExists)
-            {
-                throw new Exception("Такой пользователь уже есть!");
             }
 
             var user = new UserDTO

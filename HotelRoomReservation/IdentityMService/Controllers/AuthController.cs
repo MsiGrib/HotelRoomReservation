@@ -31,34 +31,44 @@ namespace IdentityMService.Controllers
             {
                 if (!AuthCValidator.IsValidAuthorizationRequest(request))
                 {
-                    return BadRequest();
+                    return BadRequest(new BaseResponse
+                    {
+                        StatusCode = StatusCodes.Status400BadRequest,
+                        Message = "Данные пустые или некорректны!"
+                    });
                 }
 
                 var user = await _userService.AuthorizationUserAsync(request.Login, request.Password);
 
                 if (user == null)
                 {
-                    return Unauthorized();
+                    return Unauthorized(new BaseResponse
+                    {
+                        StatusCode = StatusCodes.Status401Unauthorized,
+                        Message = "Данного пользователя нет в системе!"
+                    });
                 }
 
                 string token = TokenUtility.CreateJWTToken(_basicConfiguration.SecretJWT, _basicConfiguration.IssuerJWT, _basicConfiguration.AudienceJWT, user.Id.ToString(), DateTime.Now.AddHours(3));
 
-                var response = new ApiResponse<AuthorizationResponse>
+                return Ok(new ApiResponse<AuthorizationResponse>
                 {
                     StatusCode = 200,
-                    Message = string.Empty,
+                    Message = "Авторизация прошла успешно!",
                     Data = new AuthorizationResponse
                     {
                         ExpirationTimeToken = DateTime.Now.AddHours(3),
                         Token = token,
                     }
-                };
-
-                return Ok(response);
+                });
             }
             catch (Exception)
             {
-                return new ObjectResult(StatusCodes.Status500InternalServerError);
+                return new ObjectResult(new BaseResponse
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    Message = "Ошибка на стороне сервера!"
+                });
             }
         }
 
@@ -76,9 +86,26 @@ namespace IdentityMService.Controllers
                     });
                 }
 
-                DateTime.TryParse(request.Birthday, out var birthday);
+                if (await _userService.IsExistsRegistrUserAsync(request.Login, request.Email))
+                {
+                    return BadRequest(new BaseResponse
+                    {
+                        StatusCode = StatusCodes.Status400BadRequest,
+                        Message = "Такой пользователь уже есть!"
+                    });
+                }
 
+                DateTime.TryParse(request.Birthday, out var birthday);
                 bool status = await _userService.RegistrationUserAsync(request.Login, request.Password, request.NumberPhone, request.LastName, request.FirstName, request.Email, birthday);
+
+                if (!status)
+                {
+                    new ObjectResult(new BaseResponse
+                    {
+                        StatusCode = StatusCodes.Status500InternalServerError,
+                        Message = "Не получилось зарегистрировать пользователя!"
+                    });
+                }
 
                 return Ok(new BaseResponse
                 {

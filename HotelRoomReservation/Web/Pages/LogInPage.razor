@@ -5,8 +5,8 @@
     <MudPaper Class="login-paper" Elevation="6">
         <MudText Typo="Typo.h4" Class="text-center mb-4">Авторизация</MudText>
         
-        <MudTextField @bind-Value="TextValue" Label="Логин" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" FullWidth="true" />
-        <MudTextField @bind-Value="TextValue" Label="Пароль" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Lock" FullWidth="true" InputType="InputType.Password" />
+        <MudTextField @bind-Value="_login" Label="Логин" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Person" FullWidth="true" />
+        <MudTextField @bind-Value="_password" Label="Пароль" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Lock" FullWidth="true" InputType="InputType.Password" />
         
         <MudButton OnClick="OnLogIn" Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Class="mt-3">Войти</MudButton>
         <MudDivider Class="my-4" />

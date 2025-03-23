@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using DataModel.ModelsResponse;
+using IdentityMService.ModelsRR;
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
+using System.Net;
+using Web.Helpers;
 
 namespace Web.Pages
 {
@@ -6,11 +11,46 @@ namespace Web.Pages
     {
         [Inject]
         public required NavigationManager Navigation { get; set; }
-        public string TextValue { get; set; }
+        [Inject]
+        public required IDialogService DialogService { get; set; }
+        [Inject]
+        public required ISnackbar Snackbar { get; set; }
+        [Inject]
+        public required UniversalApiManager UniversalApiManager { get; set; }
+        [Inject]
+        public required BasicConfiguration BasicConfiguration { get; set; }
+        [Inject]
+        public required UserStorage UserStorage { get; set; }
 
-        private void OnLogIn()
+        private string _login = string.Empty;
+        private string _password = string.Empty;
+
+        private async Task OnLogIn()
         {
-            Navigation.NavigateTo("/");//Переход в личный кабинет
+            var request = new AuthorizationRequest
+            {
+                Login = _login,
+                Password = _password
+            };
+
+            string url = $"{BasicConfiguration.IdentityApiUrl}api/Auth/Authorization";
+            var response = await UniversalApiManager.PostAsync<AuthorizationRequest, ApiResponse<AuthorizationResponse>>(BasicConfiguration.IdentityApiName, url, request);
+
+            if (response == null || response.Data == null || string.IsNullOrEmpty(response.Data.Token))
+            {
+                Snackbar.ShowNotification("Уведомление", "Произошла ошибка на стороне сервера!");
+            }
+            else if (response.StatusCode == (int)HttpStatusCode.OK)
+            {
+                Snackbar.ShowNotification("Уведомление", response.Message);
+                await UserStorage.SetToken(response.Data.Token);
+                await UserStorage.SetExpirationToken(response.Data.ExpirationTimeToken.ToString());
+                // Переход в Лк
+            }
+            else
+            {
+                Snackbar.ShowNotification("Уведомление", response.Message);
+            }
         }
 
         private void OnSignIn()
