@@ -2,9 +2,12 @@ using DataModel.DataBase;
 using IdentityMService.EntityGateWay;
 using IdentityMService.Service;
 using IdentityMService.Utilitys;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
+using System.Text;
 
 namespace IdentityMService
 {
@@ -41,10 +44,11 @@ namespace IdentityMService
                 return new BasicConfiguration(configuration);
             });
 
-            string? connectionString = builder?.Services?.BuildServiceProvider().GetRequiredService<BasicConfiguration>().ConnectionString;
-            _ = builder?.Services.AddDbContext<IdentityDBContext>(options => options.UseNpgsql(connectionString));
+            var configuration = builder?.Services?.BuildServiceProvider().GetRequiredService<BasicConfiguration>();
+            _ = builder?.Services.AddDbContext<IdentityDBContext>(options => options.UseNpgsql(configuration?.ConnectionString));
 
             ServicesBinding(builder!.Services);
+            AuthenticationBinding(builder!.Services, configuration);
 
             var app = builder!.Build();
 
@@ -69,6 +73,28 @@ namespace IdentityMService
 
             serviceCollection.AddScoped<IUserProfileRepository, UserProfileRepository>();
             serviceCollection.AddScoped<IUserProfileService, UserProfileService>();
+        }
+
+        private static void AuthenticationBinding(IServiceCollection serviceCollection, BasicConfiguration configuration)
+        {
+            serviceCollection.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.SecretJWT)),
+                    ValidateIssuer = true,
+                    ValidIssuer = configuration.IssuerJWT,
+                    ValidateAudience = true,
+                    ValidAudience = configuration.AudienceJWT,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
         }
     }
 }

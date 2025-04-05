@@ -26,6 +26,11 @@ namespace IdentityMService.Controllers
             _basicConfiguration = basicConfiguration;
         }
 
+        /// <summary>
+        /// For Client
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("Authorization")]
         public async Task<IActionResult> AuthorizationUser([FromBody] AuthorizationRequest request)
         {
@@ -74,6 +79,11 @@ namespace IdentityMService.Controllers
             }
         }
 
+        /// <summary>
+        /// For Client
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("Registration")]
         public async Task<IActionResult> RegistrationUser([FromBody] RegistrationRequest request)
         {

@@ -13,7 +13,7 @@ namespace IdentityMService.Service
             _userProfileRepository = userProfileRepository;
         }
 
-        public async Task<bool> PrimaryProfileConsciousness(UserDTO user)
+        public async Task<bool> PrimaryProfileConsciousnessAsync(UserDTO user)
         {
             var userProfile = new UserProfileDTO
             {
@@ -27,22 +27,9 @@ namespace IdentityMService.Service
             return status;
         }
 
-        public async Task<bool> CreateUserProfileAsync(UserDTO user, string imagePatch, string country, string city, string postalCode)
+        public async Task<UserProfileDTO?> GetUserProfileByUserIdAsync(Guid userId)
         {
-            var userProfile = new UserProfileDTO
-            {
-                Id = Guid.NewGuid(),
-                ImagePatch = imagePatch,
-                Country = country,
-                City = city,
-                PostalCode = postalCode,
-                UserId = user.Id,
-                User = user,
-            };
-
-            bool status = await _userProfileRepository.AddAsync(userProfile);
-
-            return status;
+            return await _userProfileRepository.GetByUserIdAsync(userId);
         }
     }
 }

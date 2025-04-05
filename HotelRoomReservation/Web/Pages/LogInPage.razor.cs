@@ -41,7 +41,7 @@ namespace Web.Pages
                 await UserStorage.SetToken(response.Data.Token);
                 await UserStorage.SetExpirationToken(response.Data.ExpirationTimeToken.ToString());
 
-                // Переход в Лк
+                Navigation.NavigateTo("/Profile");
             }
             else
             {

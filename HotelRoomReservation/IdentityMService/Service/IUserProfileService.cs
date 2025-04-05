@@ -4,7 +4,7 @@ namespace IdentityMService.Service
 {
     public interface IUserProfileService
     {
-        public Task<bool> CreateUserProfileAsync(UserDTO user, string imagePatch, string country, string city, string postalCode);
-        public Task<bool> PrimaryProfileConsciousness(UserDTO user);
+        public Task<bool> PrimaryProfileConsciousnessAsync(UserDTO user);
+        public Task<UserProfileDTO?> GetUserProfileByUserIdAsync(Guid userId);
     }
 }

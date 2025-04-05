@@ -28,6 +28,15 @@ namespace IdentityMService.EntityGateWay
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<UserProfileDTO?> GetByUserIdAsync(Guid id)
+        {
+            return await _context.UsersProfile
+                .AsNoTracking()
+                .Include(x => x.User)
+                .Where(up => up.UserId == id)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<bool> AddAsync(UserProfileDTO entity)
         {
             await _context.UsersProfile.AddAsync(entity);
